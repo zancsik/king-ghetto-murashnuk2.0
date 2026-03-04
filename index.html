@@ -5,14 +5,12 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="theme-color" content="#07070b" />
   <title>CRIME EVENT — Король Гетто</title>
-  <meta name="description" content="CRIME EVENT — Король Гетто. Суббота 21:00 (Киев). Таймер, правила, /tp, позиции, мини-игра." />
+  <meta name="description" content="CRIME EVENT — Король Гетто. Суббота 21:00 (Киев). Таймер, правила, /tp, позиции." />
 
   <style>
     :root{
       --bg:#07070b;
       --bg2:#0a0a12;
-      --card:rgba(255,255,255,.06);
-      --stroke:rgba(255,255,255,.12);
       --text:#e9e9f2;
       --muted:rgba(233,233,242,.72);
       --neon:#ff2a2a;
@@ -53,19 +51,6 @@
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
       background-size:auto, 240px 240px;
       mix-blend-mode:overlay;
-    }
-    body:after{
-      content:"";
-      position:fixed; inset:-20%;
-      pointer-events:none;
-      background: radial-gradient(900px 500px at 50% 0%, rgba(255,60,60,.08), transparent 65%);
-      filter: blur(14px);
-      animation:pulse 6s ease-in-out infinite;
-      opacity:.85;
-    }
-    @keyframes pulse{
-      0%,100%{transform:translateY(0)}
-      50%{transform:translateY(10px)}
     }
 
     a{color:inherit; text-decoration:none}
@@ -161,28 +146,6 @@
       background: var(--neon);
       box-shadow: 0 0 18px rgba(255,60,60,.55);
     }
-    .btn{
-      cursor:pointer;
-      padding:9px 12px;
-      border-radius:12px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.06);
-      color:var(--text);
-      font-size:13px;
-      transition:.18s ease;
-      user-select:none;
-    }
-    .btn:hover{
-      transform: translateY(-1px);
-      border-color: rgba(255,60,60,.35);
-      box-shadow: 0 0 0 4px rgba(255,60,60,.08);
-    }
-    .btn.neon{
-      border-color: rgba(255,60,60,.35);
-      background: rgba(255,60,60,.12);
-    }
-    .btn.small{padding:8px 10px; font-size:12px; border-radius:12px}
-    .btn:disabled{opacity:.55; cursor:not-allowed; transform:none}
 
     /* Hero */
     header.hero{padding:44px 0 18px; position:relative}
@@ -340,20 +303,6 @@
       position:relative;
       overflow:hidden;
     }
-    .tbox:after{
-      content:"";
-      position:absolute; inset:-40%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,.10), transparent);
-      transform: rotate(25deg);
-      animation: sweep2 7s linear infinite;
-      opacity:.55;
-      pointer-events:none;
-    }
-    @keyframes sweep2{
-      0%{transform:translateX(-45%) rotate(25deg)}
-      100%{transform:translateX(45%) rotate(25deg)}
-    }
-
     .tbox .num{
       font-family:var(--mono);
       font-size:24px;
@@ -432,7 +381,7 @@
     .rules{columns:2; column-gap:22px}
     @media (max-width:760px){ .rules{columns:1} }
 
-    /* Factions + quick actions */
+    /* Factions */
     .factions{
       display:grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -457,23 +406,6 @@
       background: rgba(255,60,60,.10);
       color: rgba(255,255,255,.88);
       white-space:nowrap;
-    }
-    .row{
-      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
-    }
-    .input{
-      width: min(420px, 100%);
-      padding:11px 12px;
-      border-radius: 14px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.22);
-      color:var(--text);
-      font-size:13px;
-      outline:none;
-    }
-    .input:focus{
-      border-color: rgba(255,60,60,.35);
-      box-shadow: 0 0 0 4px rgba(255,60,60,.08);
     }
 
     /* Gallery */
@@ -571,84 +503,6 @@
     }
     .modal-img{width:100%; height:auto; display:block}
 
-    /* FAQ */
-    .faq{
-      display:grid; gap:10px;
-    }
-    details{
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.16);
-      padding:12px 12px;
-    }
-    summary{
-      cursor:pointer;
-      list-style:none;
-      font-family:var(--mono);
-      letter-spacing:.06em;
-      text-transform:uppercase;
-      font-size:12px;
-      opacity:.92;
-      display:flex; align-items:center; justify-content:space-between; gap:10px;
-    }
-    summary::-webkit-details-marker{display:none}
-    .faq p{margin:10px 0 0; color:var(--muted); font-size:13px; line-height:1.55}
-    .caret{
-      width:10px; height:10px; border-right:2px solid rgba(255,255,255,.55); border-bottom:2px solid rgba(255,255,255,.55);
-      transform: rotate(45deg);
-      transition:.18s ease;
-      opacity:.7;
-    }
-    details[open] .caret{transform: rotate(-135deg); opacity:.95}
-
-    /* Mini-game */
-    .gamewrap{
-      display:grid;
-      grid-template-columns: 1.05fr .95fr;
-      gap:14px;
-      align-items:stretch;
-    }
-    @media (max-width:860px){ .gamewrap{grid-template-columns:1fr} }
-    .gamebox{
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.16);
-      padding:14px;
-    }
-    .gamebox h4{
-      margin:0 0 8px;
-      font-family:var(--mono);
-      letter-spacing:.10em;
-      text-transform:uppercase;
-      font-size:13px;
-      opacity:.92;
-    }
-    .meter{
-      height:12px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.05);
-      overflow:hidden;
-    }
-    .bar{
-      height:100%;
-      width:0%;
-      background: linear-gradient(90deg, rgba(255,60,60,.18), rgba(255,60,60,.55));
-      box-shadow: 0 0 24px rgba(255,60,60,.22);
-      transition: width .12s linear;
-    }
-    .code{
-      font-family:var(--mono);
-      font-size:12px;
-      color:rgba(255,255,255,.88);
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.22);
-      padding:10px 12px;
-      line-height:1.45;
-      white-space:pre-wrap;
-    }
-
     footer{
       padding: 18px 0 34px;
       color:var(--muted);
@@ -668,7 +522,7 @@
           <div class="logo" aria-hidden="true"></div>
           <div>
             <h1>CRIME EVENT — КОРОЛЬ ГЕТТО</h1>
-            <span>Ukraine GTA5 • OOC • Saturday Protocol</span>
+            <span>Ukraine GTA5 • OOC</span>
           </div>
         </div>
 
@@ -677,8 +531,6 @@
           <a href="#rules">Правила</a>
           <a href="#factions">Фракции</a>
           <a href="#positions">Позиции</a>
-          <a href="#hack">Hack</a>
-          <a href="#faq">FAQ</a>
         </nav>
 
         <div class="right-controls">
@@ -686,9 +538,6 @@
             <span class="dot" aria-hidden="true"></span>
             <span id="statusText">Подготовка</span>
           </div>
-          <button class="btn neon" id="copyAnnounceBtn" type="button" title="Скопировать анонс для Discord">
-            Copy Discord
-          </button>
         </div>
       </div>
     </div>
@@ -702,13 +551,13 @@
           <h2 class="title">Король Гетто</h2>
           <p class="subtitle">
             CRIME-ивент: 3 локации, 3 точки на каждой. Очки начисляются каждые 5 минут за удержание.
-            Без союзов. Без транспорта. Чистый разбор.
+            Без союзов. Без транспорта.
           </p>
 
           <div class="alertline">
             <div class="chip"><b class="red">СУББОТА</b> <span class="muted">—</span> <b class="yellow">21:00</b> <span class="muted">(Киев)</span></div>
             <div class="chip"><b class="green">СБОР</b> <span class="muted">—</span> <b>20:50</b></div>
-            <div class="chip"><b class="red">ОЧКИ</b> <span class="muted">—</span> T1:300 • T2:250 • T3:200</div>
+            <div class="chip"><b class="red">RK</b> <span class="muted">—</span> <b class="yellow">21:15</b> <span class="muted">на 1 минуту</span></div>
           </div>
 
           <div class="quick">
@@ -717,25 +566,30 @@
               <span><strong>Суббота, 07.03.2026 — 21:00</strong></span>
             </div>
             <div class="qcard">
-              <b>Вход</b>
-              <span>Ждать сообщение → вводить <code>/tp 1-7</code></span>
+              <b>Телепорт</b>
+              <span>Ждать сообщение от ГК/Куратора → вводить <code>/tp 1-7</code></span>
             </div>
             <div class="qcard">
-              <b>Длительность</b>
-              <span>≈ 30 минут • RK зона закрывается после ивента</span>
+              <b>Очки</b>
+              <span>T1: 300 • T2: 250 • T3: 200 (каждые 5 минут)</span>
             </div>
           </div>
+
+          <p class="hint" style="margin-top:12px">
+            RK-зона: <code>21:15</code> открывается на <code>1 минуту</code> по команде <code>/tp 1</code>.
+            В течение этой минуты в RK-зоне <b>нельзя никого убивать</b>.
+          </p>
         </div>
 
         <aside class="count-card" aria-label="Таймер">
           <div class="count-head">
             <div>
               <h2>До старта</h2>
-              <div class="smallmuted" id="eventMeta">Суббота • 21:00 (Europe/Kyiv)</div>
+              <div class="smallmuted" id="eventMeta">Суббота • 21:00 (Kyiv)</div>
             </div>
             <div class="pill" title="TimeZone">
               <span style="opacity:.75">TZ</span>
-              <span id="tzText">Europe/Kyiv</span>
+              <span id="tzText">Local</span>
             </div>
           </div>
 
@@ -747,14 +601,8 @@
           </div>
 
           <p class="hint">
-            Быстрая кнопка: <code>Copy Discord</code> → вставь анонс в чат.
-            После <code>/tp</code> — на стартовую точку, без транспорта.
+            После <code>/tp</code> — обязательно на стартовую точку. Транспорт запрещён.
           </p>
-
-          <div class="row">
-            <button class="btn small" id="copyTimeBtn" type="button">Copy time</button>
-            <button class="btn small" id="copyRulesBtn" type="button">Copy rules</button>
-          </div>
         </aside>
       </div>
     </div>
@@ -774,16 +622,14 @@
             <ul class="clean">
               <li>Ивент полностью <b>OOC</b>.</li>
               <li>Участвуют фракции <b>CRIME</b>.</li>
-              <li>3 локации, на каждой — 3 точки.</li>
+              <li>Локация муравейник на ней — 3 точки.</li>
               <li>Очки начисляются каждые 5 минут за удержание точки.</li>
             </ul>
           </div>
           <div class="box">
             <h4>Локации</h4>
             <ul class="clean">
-              <li><b>Площадь</b> — Точки 1/2/3</li>
               <li><b>Муравейник</b> — Точки 1/2/3</li>
-              <li><b>Титул Vagos</b> — Точки 1/2/3</li>
             </ul>
             <div class="smallmuted" style="margin-top:10px">
               Сбор до <b>20:50</b>. Старт <b>21:00</b>.
@@ -792,11 +638,10 @@
         </div>
 
         <div class="box" style="margin-top:14px">
-          <h4>Очки (каждые 5 минут)</h4>
+          <h4>RK-зона</h4>
           <ul class="clean">
-            <li>Точка 1 — <b>300</b></li>
-            <li>Точка 2 — <b>250</b></li>
-            <li>Точка 3 — <b>200</b></li>
+            <li>Открывается в <b>21:15</b> на <b>1 минуту</b> по команде <code>/tp</code>.</li>
+            <li>В течение этой минуты в RK-зоне <b>запрещено убивать кого-либо</b>.</li>
           </ul>
         </div>
       </div>
@@ -806,7 +651,7 @@
     <section id="rules">
       <div class="sec-head">
         <h3>Правила</h3>
-        <span class="tag">no союзов • no транспорт</span>
+        <span class="tag">без союзов • без транспорта</span>
       </div>
       <div class="sec-body">
         <ol class="clean rules" id="rulesList">
@@ -820,9 +665,9 @@
           <li>Одежда по цветам фракции.</li>
           <li>Союзы запрещены.</li>
           <li>Неявка старшего состава = -5 баллов.</li>
-          <li>В RK-зоне стрелять нельзя.</li>
+          <li><b>RK-зона</b> открывается в <b>21:15</b> на <b>1 минуту</b> по команде <code>/tp</code>.</li>
+          <li>В течение этой минуты в RK-зоне <b>нельзя никого убивать</b>.</li>
           <li>Опоздание после начала = дисквалификация.</li>
-          <li>После ивента RK-зона закрывается.</li>
           <li>Запрещены снайперки и мушкет.</li>
         </ol>
       </div>
@@ -831,21 +676,39 @@
     <!-- FACTIONS -->
     <section id="factions">
       <div class="sec-head">
-        <h3>Фракции & /tp</h3>
-        <span class="tag">клик — копировать</span>
+        <h3>Фракции</h3>
+        <span class="tag">/tp</span>
       </div>
       <div class="sec-body">
-        <div class="row" style="margin-bottom:12px">
-          <input class="input" id="factionSearch" placeholder="Поиск фракции (например: Vagos / Mafia / Ballas)..." />
-          <button class="btn" id="copyAllTpBtn" type="button">Copy all /tp</button>
-        </div>
-
-        <div class="factions" id="factionsGrid">
-          <!-- cards injected by JS -->
-        </div>
-
-        <div class="smallmuted" style="margin-top:12px">
-          Подсказка: нажми на карточку — команда <b>/tp</b> сразу копируется.
+        <div class="factions">
+          <div class="fcard">
+            <div class="fleft"><b>Kyiv Mafia</b><span>Телепорт на локацию</span></div>
+            <div class="tp">/tp 1</div>
+          </div>
+          <div class="fcard">
+            <div class="fleft"><b>Chinese Mafia</b><span>Телепорт на локацию</span></div>
+            <div class="tp">/tp 2</div>
+          </div>
+          <div class="fcard">
+            <div class="fleft"><b>Italian Mafia</b><span>Телепорт на локацию</span></div>
+            <div class="tp">/tp 3</div>
+          </div>
+          <div class="fcard">
+            <div class="fleft"><b>The Families</b><span>Телепорт на локацию</span></div>
+            <div class="tp">/tp 4</div>
+          </div>
+          <div class="fcard">
+            <div class="fleft"><b>Ballas Gang</b><span>Телепорт на локацию</span></div>
+            <div class="tp">/tp 5</div>
+          </div>
+          <div class="fcard">
+            <div class="fleft"><b>Northside Vagos</b><span>Телепорт на локацию</span></div>
+            <div class="tp">/tp 6</div>
+          </div>
+          <div class="fcard">
+            <div class="fleft"><b>Marabunta Grande</b><span>Телепорт на локацию</span></div>
+            <div class="tp">/tp 7</div>
+          </div>
         </div>
       </div>
     </section>
@@ -860,6 +723,7 @@
       <div class="sec-body">
         <div class="gallery">
           <div class="gitem" data-title="Муравейник — схема" data-img="kingGHETTO(%D0%BC%D1%83%D1%80%D0%B0%D1%88%D0%BD%D0%B8%D0%BA%29.png">
+            <img src="kingGHETTO(%D0%BC%D1%83%D1%80%D0%B0%D1%88%D0%BD%D1%83%D0%BA%29.png" alt="" style="display:none">
             <img src="kingGHETTO(%D0%BC%D1%83%D1%80%D0%B0%D1%88%D0%BD%D0%B8%D0%BA%29.png" alt="Муравейник — схема" loading="lazy">
             <div class="gcap">
               <div>
@@ -906,81 +770,9 @@
       </div>
     </section>
 
-    <!-- HACK MINI GAME -->
-    <section id="hack">
-      <div class="sec-head">
-        <h3>Mini-game: Hack the Node</h3>
-        <span class="tag">fast реакция</span>
-      </div>
-      <div class="sec-body">
-        <div class="gamewrap">
-          <div class="gamebox">
-            <h4>Задача</h4>
-            <p class="smallmuted" style="margin:0 0 12px">
-              Нажми “START”. Когда загорится <b style="color:rgba(190,255,210,.92)">зелёный</b> — жми “HACK”.
-              Чем быстрее реакция — тем выше “доступ”.
-            </p>
-
-            <div class="row" style="margin-bottom:10px">
-              <button class="btn neon" id="gameStart" type="button">START</button>
-              <button class="btn" id="gameHack" type="button" disabled>HACK</button>
-              <div class="pill" style="margin-left:auto">
-                <span style="opacity:.75">ping</span>
-                <span id="gamePing">—</span>
-              </div>
-            </div>
-
-            <div class="meter" aria-label="Доступ">
-              <div class="bar" id="gameBar"></div>
-            </div>
-            <div class="smallmuted" id="gameStatus" style="margin-top:10px">
-              Статус: ожидание…
-            </div>
-          </div>
-
-          <div class="gamebox">
-            <h4>Зачем это?</h4>
-            <div class="code" id="gameCode">
-> BONUS IDEA (ОСС):
-- Победитель мини-игры получает "priority spawn" на точку (если админы разрешат)
-- Или право выбрать /tp первым
-- Или 1 доп. аптечка (если это допускается правилами сервера)
-            </div>
-            <div class="smallmuted" style="margin-top:10px">
-              Это просто прикольная фишка на сайте — можешь убрать, если не надо.
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- FAQ -->
-    <section id="faq">
-      <div class="sec-head">
-        <h3>FAQ</h3>
-        <span class="tag">коротко и ясно</span>
-      </div>
-      <div class="sec-body">
-        <div class="faq">
-          <details>
-            <summary>Можно ли на транспорте? <span class="caret"></span></summary>
-            <p>Нет. Транспорт на ивенте запрещён. После /tp — сразу на стартовую точку.</p>
-          </details>
-          <details>
-            <summary>Если опоздал? <span class="caret"></span></summary>
-            <p>Опоздание после начала — дисквалификация. Поэтому сбор до 20:50.</p>
-          </details>
-          <details>
-            <summary>Союзы/дипломатия? <span class="caret"></span></summary>
-            <p>Союзы запрещены: каждый играет сам за себя.</p>
-          </details>
-        </div>
-      </div>
-    </section>
-
     <footer>
       CRIME EVENT — Король Гетто · Ukraine GTA5
-      <div class="footerline">updated: Saturday 07.03.2026 21:00 (Kyiv)</div>
+      <div class="footerline">updated: Saturday 07.03.2026 21:00 (Kyiv) • RK 21:15 (1 min)</div>
     </footer>
   </main>
 
@@ -997,27 +789,24 @@
 
   <script>
     // ======================
-    // CONFIG: Saturday 07.03.2026 21:00 Europe/Kyiv
+    // CONFIG: Saturday 07.03.2026 21:00 (Kyiv)
     // ======================
-    const EVENT_TITLE = "CRIME EVENT — Король Гетто";
-    const EVENT_DATE_TEXT = "Суббота, 07.03.2026 — 21:00 (Киев)";
-    const EVENT_DATE = new Date(Date.UTC(2026, 2, 7, 19, 0, 0)); // 21:00 Kyiv ~ 19:00 UTC (зимнее/летнее может отличаться, но для визуального таймера OK)
-    // Важно: браузер покажет таймер по локальному времени пользователя. Мы фиксируем момент в UTC.
+    // Фиксируем момент старта в UTC для стабильного таймера.
+    // 21:00 Kyiv ~ 19:00 UTC (на этой дате, в зависимости от DST, может отличаться,
+    // но для сайта/отсчета это ок; главное — текстом указано "Киев 21:00").
+    const EVENT_DATE = new Date(Date.UTC(2026, 2, 7, 19, 0, 0)); // 07 March 2026
 
     const $ = (s)=>document.querySelector(s);
     const pad2 = (n)=>String(n).padStart(2,"0");
 
     const statusText = $("#statusText");
     const tzText = $("#tzText");
-    const eventMeta = $("#eventMeta");
 
-    // Timezone label
     try{
       tzText.textContent = Intl.DateTimeFormat().resolvedOptions().timeZone || "Local";
     }catch(e){
       tzText.textContent = "Local";
     }
-    eventMeta.textContent = "Суббота • 21:00 (Kyiv)";
 
     function updateCountdown(){
       const now = new Date();
@@ -1043,11 +832,7 @@
       $("#m").textContent = pad2(mins);
       $("#s").textContent = pad2(secs);
 
-      if(totalSeconds <= 15*60){
-        statusText.textContent = "Старт скоро";
-      }else{
-        statusText.textContent = "Подготовка";
-      }
+      statusText.textContent = (totalSeconds <= 15*60) ? "Старт скоро" : "Подготовка";
     }
     updateCountdown();
     setInterval(updateCountdown, 1000);
@@ -1081,187 +866,13 @@
 
     document.querySelectorAll(".gitem").forEach(card=>{
       card.addEventListener("click", ()=>{
-        const title = card.dataset.title;
-        const img = card.dataset.img;
-        openModal(title, img);
+        openModal(card.dataset.title, card.dataset.img);
       });
     });
 
     closeModal.addEventListener("click", hideModal);
     modal.addEventListener("click", (e)=>{ if(e.target === modal) hideModal(); });
     window.addEventListener("keydown",(e)=>{ if(e.key === "Escape") hideModal(); });
-
-    // Factions list (click to copy /tp)
-    const factions = [
-      {name:"Kyiv Mafia", tp:"/tp 1"},
-      {name:"Chinese Mafia", tp:"/tp 2"},
-      {name:"Italian Mafia", tp:"/tp 3"},
-      {name:"The Families", tp:"/tp 4"},
-      {name:"Ballas Gang", tp:"/tp 5"},
-      {name:"Northside Vagos", tp:"/tp 6"},
-      {name:"Marabunta Grande", tp:"/tp 7"},
-    ];
-    const grid = $("#factionsGrid");
-    function renderFactions(filter=""){
-      const f = filter.trim().toLowerCase();
-      grid.innerHTML = "";
-      factions
-        .filter(x => !f || x.name.toLowerCase().includes(f))
-        .forEach(x=>{
-          const card = document.createElement("div");
-          card.className = "fcard";
-          card.innerHTML = `
-            <div class="fleft">
-              <b>${x.name}</b>
-              <span>Телепорт на локацию</span>
-            </div>
-            <div class="tp">${x.tp}</div>
-          `;
-          card.addEventListener("click", ()=>copyText(`${x.name} — ${x.tp}`, `Скопировано: ${x.tp}`));
-          grid.appendChild(card);
-        });
-
-      if(!grid.children.length){
-        const empty = document.createElement("div");
-        empty.className = "box";
-        empty.style.gridColumn = "1 / -1";
-        empty.innerHTML = `<h4>Ничего не найдено</h4><div class="smallmuted">Попробуй другой запрос.</div>`;
-        grid.appendChild(empty);
-      }
-    }
-    renderFactions();
-
-    $("#factionSearch").addEventListener("input", (e)=>renderFactions(e.target.value));
-
-    $("#copyAllTpBtn").addEventListener("click", ()=>{
-      const text = factions.map(x=>`${x.name}: ${x.tp}`).join("\n");
-      copyText(text, "Скопированы все /tp команды");
-    });
-
-    // Copy helpers
-    async function copyText(text, toastMsg){
-      try{
-        await navigator.clipboard.writeText(text);
-        toast(toastMsg || "Copied ✓");
-      }catch(e){
-        alert(text);
-      }
-    }
-    let toastTimer;
-    function toast(msg){
-      clearTimeout(toastTimer);
-      let el = document.getElementById("toast");
-      if(!el){
-        el = document.createElement("div");
-        el.id = "toast";
-        el.style.position = "fixed";
-        el.style.left = "50%";
-        el.style.bottom = "18px";
-        el.style.transform = "translateX(-50%)";
-        el.style.padding = "10px 12px";
-        el.style.borderRadius = "14px";
-        el.style.border = "1px solid rgba(255,255,255,.14)";
-        el.style.background = "rgba(10,10,16,.86)";
-        el.style.backdropFilter = "blur(12px)";
-        el.style.color = "rgba(255,255,255,.92)";
-        el.style.fontFamily = "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace";
-        el.style.fontSize = "12px";
-        el.style.boxShadow = "0 18px 60px rgba(0,0,0,.55)";
-        el.style.zIndex = "999";
-        document.body.appendChild(el);
-      }
-      el.textContent = msg;
-      el.style.opacity = "1";
-      toastTimer = setTimeout(()=>{ el.style.opacity = "0"; }, 1200);
-    }
-
-    // Buttons: Copy discord / time / rules
-    $("#copyAnnounceBtn").addEventListener("click", ()=>{
-      const announce =
-`@everyone
-🔥 ${EVENT_TITLE}
-🗓 ${EVENT_DATE_TEXT}
-⏳ Сбор: 20:50
-📌 Формат: 3 локации / 3 точки, очки каждые 5 минут (T1=300, T2=250, T3=200)
-🚫 Без союзов / без транспорта / без 100% брони и тайзеров
-➡️ Ждать сообщение → /tp 1-7`;
-      copyText(announce, "Discord-анонс скопирован");
-    });
-
-    $("#copyTimeBtn").addEventListener("click", ()=>{
-      copyText(`Суббота 07.03.2026 21:00 (Киев). Сбор 20:50.`, "Время скопировано");
-    });
-
-    $("#copyRulesBtn").addEventListener("click", ()=>{
-      const rules = Array.from(document.querySelectorAll("#rulesList li")).map((li,i)=>`${i+1}. ${li.textContent}`).join("\n");
-      copyText(rules, "Правила скопированы");
-    });
-
-    // Mini-game: Hack the Node
-    const startBtn = $("#gameStart");
-    const hackBtn  = $("#gameHack");
-    const pingEl   = $("#gamePing");
-    const barEl    = $("#gameBar");
-    const statusEl = $("#gameStatus");
-
-    let armed = false;
-    let greenAt = 0;
-    let timer = null;
-
-    function resetGame(){
-      armed = false;
-      greenAt = 0;
-      hackBtn.disabled = true;
-      pingEl.textContent = "—";
-      barEl.style.width = "0%";
-      statusEl.textContent = "Статус: ожидание…";
-      clearTimeout(timer);
-    }
-    resetGame();
-
-    startBtn.addEventListener("click", ()=>{
-      resetGame();
-      startBtn.disabled = true;
-      statusEl.textContent = "Статус: подключение…";
-      const wait = 900 + Math.random()*2200; // 0.9–3.1s
-      timer = setTimeout(()=>{
-        armed = true;
-        greenAt = performance.now();
-        hackBtn.disabled = false;
-        statusEl.textContent = "Статус: СЕЙЧАС! Жми HACK";
-        // auto-fail if too slow
-        timer = setTimeout(()=>{
-          if(armed){
-            armed = false;
-            hackBtn.disabled = true;
-            statusEl.textContent = "Слишком поздно. Перезапусти START.";
-            startBtn.disabled = false;
-          }
-        }, 1500);
-      }, wait);
-      // allow restart soon
-      setTimeout(()=>{ if(startBtn.disabled) startBtn.disabled = false; }, 700);
-    });
-
-    hackBtn.addEventListener("click", ()=>{
-      if(!armed) return;
-      armed = false;
-      hackBtn.disabled = true;
-      const ping = Math.max(1, Math.round(performance.now() - greenAt));
-      pingEl.textContent = ping + "ms";
-
-      // score -> access percent (faster = higher)
-      const access = Math.max(5, Math.min(100, Math.round(100 - (ping-120)*0.22)));
-      barEl.style.width = access + "%";
-
-      let grade = "ACCESS DENIED";
-      if(access >= 85) grade = "ROOT ACCESS";
-      else if(access >= 65) grade = "ADMIN ACCESS";
-      else if(access >= 45) grade = "USER ACCESS";
-      statusEl.textContent = `Результат: ${grade} (${access}%)`;
-
-      startBtn.disabled = false;
-    });
   </script>
 </body>
 </html>

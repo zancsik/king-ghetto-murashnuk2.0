@@ -1,878 +1,286 @@
 <!doctype html>
-<html lang="ru">
+<html lang="uk">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="theme-color" content="#07070b" />
-  <title>CRIME EVENT — Король Гетто</title>
-  <meta name="description" content="CRIME EVENT — Король Гетто. Суббота 21:00 (Киев). Таймер, правила, /tp, позиции." />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CRIME EVENT — Король Гетто</title>
 
-  <style>
-    :root{
-      --bg:#07070b;
-      --bg2:#0a0a12;
-      --text:#e9e9f2;
-      --muted:rgba(233,233,242,.72);
-      --neon:#ff2a2a;
-      --neon2:#ff6b6b;
-      --good:#2cff87;
-      --warn:#ffd43b;
-      --shadow: 0 18px 60px rgba(0,0,0,.55);
-      --radius:18px;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family:var(--sans);
-      color:var(--text);
-      background:
-        radial-gradient(1200px 700px at 20% -10%, rgba(255,60,60,.22), transparent 60%),
-        radial-gradient(900px 600px at 90% 10%, rgba(255,120,120,.10), transparent 55%),
-        radial-gradient(800px 500px at 50% 115%, rgba(255,60,60,.10), transparent 55%),
-        linear-gradient(180deg, var(--bg), var(--bg2));
-      overflow-x:hidden;
-    }
+<style>
 
-    /* CRT scanlines + noise */
-    body:before{
-      content:"";
-      position:fixed; inset:0;
-      pointer-events:none;
-      opacity:.12;
-      background:
-        repeating-linear-gradient(180deg,
-          rgba(255,255,255,.02) 0px,
-          rgba(255,255,255,.02) 1px,
-          rgba(0,0,0,.00) 2px,
-          rgba(0,0,0,.00) 6px),
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
-      background-size:auto, 240px 240px;
-      mix-blend-mode:overlay;
-    }
+body{
+margin:0;
+font-family:Arial;
+background:#07070b;
+color:white;
+}
 
-    a{color:inherit; text-decoration:none}
-    .container{max-width:1120px; margin:0 auto; padding:0 18px}
+.container{
+max-width:1100px;
+margin:auto;
+padding:20px;
+}
 
-    /* Topbar */
-    .topbar{
-      position:sticky; top:0; z-index:50;
-      backdrop-filter: blur(14px);
-      background: rgba(8,8,12,.62);
-      border-bottom:1px solid rgba(255,255,255,.08);
-    }
-    .topbar-inner{
-      display:flex; align-items:center; justify-content:space-between;
-      padding:12px 0;
-      gap:12px;
-    }
-    .brand{
-      display:flex; align-items:center; gap:10px;
-      min-width: 240px;
-    }
-    .logo{
-      width:38px; height:38px; border-radius:12px;
-      background:
-        radial-gradient(18px 18px at 30% 30%, rgba(255,255,255,.22), transparent 60%),
-        linear-gradient(135deg, rgba(255,60,60,.95), rgba(90,0,0,.95));
-      box-shadow: 0 0 24px rgba(255,60,60,.25);
-      border:1px solid rgba(255,255,255,.14);
-      position:relative;
-      overflow:hidden;
-    }
-    .logo:after{
-      content:"";
-      position:absolute; inset:-60%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,.22), transparent);
-      transform: rotate(25deg);
-      animation: sweep 5.5s linear infinite;
-    }
-    @keyframes sweep{
-      0%{transform:translateX(-40%) rotate(25deg)}
-      100%{transform:translateX(40%) rotate(25deg)}
-    }
+header{
+background:#0b0b12;
+padding:15px;
+border-bottom:1px solid #222;
+}
 
-    .brand h1{
-      font-size:12.8px; line-height:1.15; margin:0;
-      letter-spacing:.12em; text-transform:uppercase;
-      opacity:.92;
-    }
-    .brand span{
-      display:block;
-      font-family:var(--mono);
-      font-size:11px;
-      opacity:.62;
-      letter-spacing:.02em;
-      margin-top:2px;
-    }
+nav a{
+margin-right:15px;
+color:white;
+text-decoration:none;
+font-size:14px;
+}
 
-    .nav{
-      display:flex; gap:10px; flex-wrap:wrap; justify-content:center;
-    }
-    .nav a{
-      padding:9px 12px;
-      border-radius:12px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.04);
-      font-size:13px;
-      opacity:.88;
-      transition:.18s ease;
-    }
-    .nav a:hover{
-      transform: translateY(-1px);
-      border-color: rgba(255,60,60,.35);
-      box-shadow: 0 0 0 4px rgba(255,60,60,.08);
-      opacity:1;
-    }
+nav a:hover{
+color:#ff3b3b;
+}
 
-    .right-controls{
-      display:flex; gap:10px; align-items:center; justify-content:flex-end;
-      min-width:240px;
-    }
-    .pill{
-      font-family:var(--mono);
-      font-size:12px;
-      padding:9px 12px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.04);
-      display:flex; gap:8px; align-items:center;
-      white-space:nowrap;
-    }
-    .dot{
-      width:8px; height:8px; border-radius:999px;
-      background: var(--neon);
-      box-shadow: 0 0 18px rgba(255,60,60,.55);
-    }
+.hero{
+margin-top:20px;
+padding:20px;
+background:#101018;
+border-radius:12px;
+}
 
-    /* Hero */
-    header.hero{padding:44px 0 18px; position:relative}
-    .hero-grid{
-      display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap:18px;
-      align-items:stretch;
-    }
-    @media (max-width: 960px){ .hero-grid{grid-template-columns:1fr} .brand,.right-controls{min-width:auto} }
+.title{
+font-size:32px;
+margin-bottom:10px;
+}
 
-    .hero-card{
-      border-radius: var(--radius);
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      border:1px solid rgba(255,255,255,.10);
-      box-shadow: var(--shadow);
-      padding:20px;
-      position:relative;
-      overflow:hidden;
-    }
-    .hero-card:before{
-      content:"";
-      position:absolute; inset:-1px;
-      background:
-        radial-gradient(600px 220px at 20% 0%, rgba(255,60,60,.22), transparent 55%),
-        radial-gradient(700px 240px at 90% 20%, rgba(255,120,120,.10), transparent 55%);
-      pointer-events:none;
-      opacity:.95;
-    }
-    .hero-card > *{position:relative}
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:12px;
+margin-top:15px;
+}
 
-    .kicker{
-      display:inline-flex; gap:8px; align-items:center;
-      font-family:var(--mono);
-      font-size:12px;
-      letter-spacing:.14em;
-      text-transform:uppercase;
-      opacity:.78;
-    }
-    .kicker .slash{
-      color:var(--neon2);
-      text-shadow: 0 0 16px rgba(255,60,60,.35);
-    }
+.card{
+background:#15151f;
+padding:15px;
+border-radius:10px;
+border:1px solid #222;
+}
 
-    .title{
-      margin:10px 0 8px;
-      font-size:34px;
-      letter-spacing:.02em;
-      line-height:1.06;
-      text-transform:uppercase;
-    }
-    @media (max-width:520px){ .title{font-size:28px} }
-    .subtitle{
-      margin:0;
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.55;
-      max-width:72ch;
-    }
+.card b{
+display:block;
+margin-bottom:5px;
+}
 
-    .alertline{
-      margin-top:12px;
-      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
-    }
-    .chip{
-      font-family:var(--mono);
-      font-size:12px;
-      padding:8px 10px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.18);
-      display:inline-flex; gap:8px; align-items:center;
-    }
-    .chip b{font-weight:700; letter-spacing:.06em}
-    .chip .red{color:rgba(255,180,180,.92)}
-    .chip .green{color:rgba(190,255,210,.92)}
-    .chip .yellow{color:rgba(255,240,190,.92)}
+section{
+margin-top:25px;
+background:#101018;
+border-radius:12px;
+padding:20px;
+}
 
-    .quick{
-      margin-top:14px;
-      display:grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap:10px;
-    }
-    @media (max-width:720px){ .quick{grid-template-columns:1fr} }
-    .qcard{
-      border-radius: 16px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.18);
-      padding:12px 12px 11px;
-    }
-    .qcard b{
-      display:block;
-      font-family:var(--mono);
-      letter-spacing:.06em;
-      text-transform:uppercase;
-      font-size:12px;
-      opacity:.9;
-    }
-    .qcard span{
-      display:block;
-      margin-top:6px;
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.35;
-    }
+.section-title{
+font-size:20px;
+margin-bottom:15px;
+}
 
-    /* Countdown card */
-    .count-card{
-      border-radius: var(--radius);
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.05);
-      box-shadow: var(--shadow);
-      padding:18px;
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-      overflow:hidden;
-      position:relative;
-    }
-    .count-card:before{
-      content:"";
-      position:absolute; inset:-1px;
-      background: radial-gradient(520px 260px at 40% 0%, rgba(255,60,60,.18), transparent 60%);
-      pointer-events:none;
-      opacity:.9;
-    }
-    .count-card > *{position:relative}
+.rules{
+columns:2;
+}
 
-    .count-head{
-      display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
-    }
-    .count-head h2{
-      margin:0;
-      font-size:14px;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      font-family:var(--mono);
-      opacity:.9;
-    }
-    .smallmuted{color:var(--muted); font-size:12px; margin-top:5px; line-height:1.3}
+@media(max-width:700px){
+.rules{columns:1;}
+}
 
-    .timer{
-      display:grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap:10px;
-      margin-top:2px;
-    }
-    .tbox{
-      border-radius: 16px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.20);
-      padding:12px;
-      text-align:center;
-      position:relative;
-      overflow:hidden;
-    }
-    .tbox .num{
-      font-family:var(--mono);
-      font-size:24px;
-      letter-spacing:.04em;
-      text-shadow: 0 0 20px rgba(255,60,60,.18);
-    }
-    .tbox .lbl{
-      margin-top:6px;
-      font-size:11px;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      opacity:.68;
-    }
+.reward-box{
+background:#1b0c2e;
+border-radius:12px;
+padding:20px;
+}
 
-    .hint{
-      margin:0;
-      font-size:12px;
-      color:var(--muted);
-      line-height:1.45;
-    }
-    .hint code{
-      font-family:var(--mono);
-      font-size:12px;
-      padding:2px 6px;
-      border-radius:10px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.05);
-      color:rgba(255,255,255,.86);
-    }
+.reward-box ul{
+font-size:18px;
+line-height:1.8;
+}
 
-    /* Sections */
-    main{padding: 10px 0 66px}
-    section{
-      margin-top:18px;
-      border-radius: var(--radius);
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.04);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-    .sec-head{
-      padding:16px 18px;
-      border-bottom:1px solid rgba(255,255,255,.08);
-      display:flex; align-items:center; justify-content:space-between; gap:12px;
-      background: rgba(0,0,0,.12);
-    }
-    .sec-head h3{
-      margin:0;
-      font-size:14px;
-      letter-spacing:.14em;
-      text-transform:uppercase;
-      font-family:var(--mono);
-      opacity:.92;
-    }
-    .sec-body{padding: 16px 18px 18px}
+.tp-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:10px;
+}
 
-    .grid2{display:grid; grid-template-columns:1fr 1fr; gap:14px}
-    @media (max-width:860px){ .grid2{grid-template-columns:1fr} }
+.tp{
+background:#15151f;
+padding:12px;
+border-radius:10px;
+border:1px solid #222;
+display:flex;
+justify-content:space-between;
+}
 
-    .box{
-      border-radius: 16px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.16);
-      padding:14px;
-    }
-    .box h4{
-      margin:0 0 10px;
-      font-size:13px;
-      letter-spacing:.10em;
-      text-transform:uppercase;
-      font-family:var(--mono);
-      opacity:.9;
-    }
-    ul.clean, ol.clean{margin:0; padding-left:18px; color:var(--muted); line-height:1.55}
-    ul.clean li, ol.clean li{margin:6px 0}
-    .rules{columns:2; column-gap:22px}
-    @media (max-width:760px){ .rules{columns:1} }
+.gallery{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:12px;
+}
 
-    /* Factions */
-    .factions{
-      display:grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap:10px;
-    }
-    @media (max-width:860px){ .factions{grid-template-columns:1fr} }
-    .fcard{
-      border-radius: 16px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.16);
-      padding:12px;
-      display:flex; align-items:center; justify-content:space-between; gap:10px;
-    }
-    .fleft b{display:block; font-size:14px; letter-spacing:.02em}
-    .fleft span{display:block; font-family:var(--mono); color:var(--muted); font-size:12px; margin-top:4px}
-    .tp{
-      font-family:var(--mono);
-      font-size:12px;
-      padding:7px 10px;
-      border-radius: 999px;
-      border:1px solid rgba(255,60,60,.25);
-      background: rgba(255,60,60,.10);
-      color: rgba(255,255,255,.88);
-      white-space:nowrap;
-    }
+.gallery img{
+width:100%;
+border-radius:10px;
+}
 
-    /* Gallery */
-    .gallery{
-      display:grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap:12px;
-    }
-    @media (max-width:860px){ .gallery{grid-template-columns:1fr} }
-    .gitem{
-      border-radius: 18px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.16);
-      overflow:hidden;
-      cursor:pointer;
-      transition:.18s ease;
-      position:relative;
-    }
-    .gitem:hover{
-      transform: translateY(-2px);
-      border-color: rgba(255,60,60,.35);
-      box-shadow: 0 0 0 4px rgba(255,60,60,.08), var(--shadow);
-    }
-    .gitem img{width:100%; height:auto; display:block}
-    .gcap{
-      padding:12px;
-      border-top:1px solid rgba(255,255,255,.08);
-      display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
-    }
-    .gcap b{
-      display:block;
-      font-size:13px;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      font-family:var(--mono);
-      opacity:.92;
-    }
-    .gcap span{
-      display:block;
-      margin-top:4px;
-      color:var(--muted);
-      font-size:12px;
-      line-height:1.35;
-    }
-    .tag{
-      font-family:var(--mono);
-      font-size:11px;
-      padding:7px 10px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.05);
-      color: rgba(255,255,255,.78);
-      white-space:nowrap;
-    }
+footer{
+margin-top:30px;
+text-align:center;
+opacity:.7;
+}
 
-    /* Modal */
-    .modal{
-      position:fixed; inset:0;
-      background: rgba(0,0,0,.72);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      padding:18px;
-      z-index:100;
-    }
-    .modal.open{display:flex}
-    .modal-card{
-      width:min(1100px, 100%);
-      border-radius: 18px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(10,10,16,.86);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-    .modal-top{
-      display:flex; align-items:center; justify-content:space-between; gap:12px;
-      padding:12px 14px;
-      border-bottom:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.04);
-    }
-    .modal-top b{
-      font-family:var(--mono);
-      font-size:12px;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      opacity:.9;
-    }
-    .modal-top button{
-      cursor:pointer;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
-      color:var(--text);
-      border-radius:12px;
-      padding:8px 10px;
-    }
-    .modal-img{width:100%; height:auto; display:block}
-
-    footer{
-      padding: 18px 0 34px;
-      color:var(--muted);
-      font-size:12px;
-      text-align:center;
-      opacity:.85;
-    }
-    .footerline{margin-top:10px; font-family:var(--mono); letter-spacing:.06em}
-  </style>
+</style>
 </head>
 
 <body>
-  <div class="topbar">
-    <div class="container">
-      <div class="topbar-inner">
-        <div class="brand">
-          <div class="logo" aria-hidden="true"></div>
-          <div>
-            <h1>CRIME EVENT — КОРОЛЬ ГЕТТО</h1>
-            <span>Ukraine GTA5 • OOC</span>
-          </div>
-        </div>
 
-        <nav class="nav" aria-label="Навигация">
-          <a href="#about">Описание</a>
-          <a href="#rules">Правила</a>
-          <a href="#factions">Фракции</a>
-          <a href="#positions">Позиции</a>
-        </nav>
+<header>
+<div class="container">
 
-        <div class="right-controls">
-          <div class="pill" title="Статус">
-            <span class="dot" aria-hidden="true"></span>
-            <span id="statusText">Подготовка</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<b>CRIME EVENT — КОРОЛЬ ГЕТТО</b>
 
-  <header class="hero">
-    <div class="container">
-      <div class="hero-grid">
-        <div class="hero-card">
-          <div class="kicker"><span class="slash">///</span> operation: KING_GHETTO</div>
-          <h2 class="title">Король Гетто</h2>
-          <p class="subtitle">
-            CRIME-ивент: 3 локации, 3 точки на каждой. Очки начисляются каждые 5 минут за удержание.
-            Без союзов. Без транспорта.
-          </p>
+<nav>
+<a href="#about">Опис</a>
+<a href="#rewards">Нагороди</a>
+<a href="#rules">Правила</a>
+<a href="#factions">Фракції</a>
+<a href="#positions">Позиції</a>
+</nav>
 
-          <div class="alertline">
-            <div class="chip"><b class="red">СУББОТА</b> <span class="muted">—</span> <b class="yellow">21:00</b> <span class="muted">(Киев)</span></div>
-            <div class="chip"><b class="green">СБОР</b> <span class="muted">—</span> <b>20:50</b></div>
-            <div class="chip"><b class="red">RK</b> <span class="muted">—</span> <b class="yellow">21:15</b> <span class="muted">на 1 минуту</span></div>
-          </div>
+</div>
+</header>
 
-          <div class="quick">
-            <div class="qcard">
-              <b>Дата/время</b>
-              <span><strong>Суббота, 07.03.2026 — 21:00</strong></span>
-            </div>
-            <div class="qcard">
-              <b>Телепорт</b>
-              <span>Ждать сообщение от ГК/Куратора → вводить <code>/tp 1-7</code></span>
-            </div>
-            <div class="qcard">
-              <b>Очки</b>
-              <span>T1: 300 • T2: 250 • T3: 200 (каждые 5 минут)</span>
-            </div>
-          </div>
+<div class="container">
 
-          <p class="hint" style="margin-top:12px">
-            RK-зона: <code>21:15</code> открывается на <code>1 минуту</code> по команде <code>/tp 1</code>.
-            В течение этой минуты в RK-зоне <b>нельзя никого убивать</b>.
-          </p>
-        </div>
+<div class="hero">
 
-        <aside class="count-card" aria-label="Таймер">
-          <div class="count-head">
-            <div>
-              <h2>До старта</h2>
-              <div class="smallmuted" id="eventMeta">Суббота • 21:00 (Kyiv)</div>
-            </div>
-            <div class="pill" title="TimeZone">
-              <span style="opacity:.75">TZ</span>
-              <span id="tzText">Local</span>
-            </div>
-          </div>
+<div class="title">Король Гетто</div>
 
-          <div class="timer" role="timer" aria-live="polite">
-            <div class="tbox"><div class="num" id="d">00</div><div class="lbl">дней</div></div>
-            <div class="tbox"><div class="num" id="h">00</div><div class="lbl">час</div></div>
-            <div class="tbox"><div class="num" id="m">00</div><div class="lbl">мин</div></div>
-            <div class="tbox"><div class="num" id="s">00</div><div class="lbl">сек</div></div>
-          </div>
+<div class="cards">
 
-          <p class="hint">
-            После <code>/tp</code> — обязательно на стартовую точку. Транспорт запрещён.
-          </p>
-        </aside>
-      </div>
-    </div>
-  </header>
+<div class="card">
+<b>Дата</b>
+Субота — 21:00
+</div>
 
-  <main class="container">
-    <!-- ABOUT -->
-    <section id="about">
-      <div class="sec-head">
-        <h3>Описание</h3>
-        <span class="tag">OOC • CRIME only</span>
-      </div>
-      <div class="sec-body">
-        <div class="grid2">
-          <div class="box">
-            <h4>Формат</h4>
-            <ul class="clean">
-              <li>Ивент полностью <b>OOC</b>.</li>
-              <li>Участвуют фракции <b>CRIME</b>.</li>
-              <li>Локация муравейник на ней — 3 точки.</li>
-              <li>Очки начисляются каждые 5 минут за удержание точки.</li>
-            </ul>
-          </div>
-          <div class="box">
-            <h4>Локации</h4>
-            <ul class="clean">
-              <li><b>Муравейник</b> — Точки 1/2/3</li>
-            </ul>
-            <div class="smallmuted" style="margin-top:10px">
-              Сбор до <b>20:50</b>. Старт <b>21:00</b>.
-            </div>
-          </div>
-        </div>
+<div class="card">
+<b>Збір</b>
+20:50
+</div>
 
-        <div class="box" style="margin-top:14px">
-          <h4>RK-зона</h4>
-          <ul class="clean">
-            <li>Открывается в <b>21:15</b> на <b>1 минуту</b> по команде <code>/tp</code>.</li>
-            <li>В течение этой минуты в RK-зоне <b>запрещено убивать кого-либо</b>.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
+<div class="card">
+<b>Очки</b>
+T1:300 • T2:250 • T3:200
+</div>
 
-    <!-- RULES -->
-    <section id="rules">
-      <div class="sec-head">
-        <h3>Правила</h3>
-        <span class="tag">без союзов • без транспорта</span>
-      </div>
-      <div class="sec-body">
-        <ol class="clean rules" id="rulesList">
-          <li>1–20 участников от фракции.</li>
-          <li>Не наносить урон до старта.</li>
-          <li>После TP — обязательно на стартовую точку.</li>
-          <li>Транспорт запрещен.</li>
-          <li>Без 100% брони и без тайзеров.</li>
-          <li>Без багоюза анимаций / перекатов.</li>
-          <li>Оружие обязательно.</li>
-          <li>Одежда по цветам фракции.</li>
-          <li>Союзы запрещены.</li>
-          <li>Неявка старшего состава = -5 баллов.</li>
-          <li><b>RK-зона</b> открывается в <b>21:15</b> на <b>1 минуту</b> по команде <code>/tp</code>.</li>
-          <li>В течение этой минуты в RK-зоне <b>нельзя никого убивать</b>.</li>
-          <li>Опоздание после начала = дисквалификация.</li>
-          <li>Запрещены снайперки и мушкет.</li>
-        </ol>
-      </div>
-    </section>
+<div class="card">
+<b>RK зона</b>
+21:15 на 1 хвилину
+</div>
 
-    <!-- FACTIONS -->
-    <section id="factions">
-      <div class="sec-head">
-        <h3>Фракции</h3>
-        <span class="tag">/tp</span>
-      </div>
-      <div class="sec-body">
-        <div class="factions">
-          <div class="fcard">
-            <div class="fleft"><b>Kyiv Mafia</b><span>Телепорт на локацию</span></div>
-            <div class="tp">/tp 1</div>
-          </div>
-          <div class="fcard">
-            <div class="fleft"><b>Chinese Mafia</b><span>Телепорт на локацию</span></div>
-            <div class="tp">/tp 2</div>
-          </div>
-          <div class="fcard">
-            <div class="fleft"><b>Italian Mafia</b><span>Телепорт на локацию</span></div>
-            <div class="tp">/tp 3</div>
-          </div>
-          <div class="fcard">
-            <div class="fleft"><b>The Families</b><span>Телепорт на локацию</span></div>
-            <div class="tp">/tp 4</div>
-          </div>
-          <div class="fcard">
-            <div class="fleft"><b>Ballas Gang</b><span>Телепорт на локацию</span></div>
-            <div class="tp">/tp 5</div>
-          </div>
-          <div class="fcard">
-            <div class="fleft"><b>Northside Vagos</b><span>Телепорт на локацию</span></div>
-            <div class="tp">/tp 6</div>
-          </div>
-          <div class="fcard">
-            <div class="fleft"><b>Marabunta Grande</b><span>Телепорт на локацию</span></div>
-            <div class="tp">/tp 7</div>
-          </div>
-        </div>
-      </div>
-    </section>
+</div>
 
-    <!-- POSITIONS -->
-    <section id="positions">
-      <div class="sec-head">
-        <h3>Позиции — Муравейник</h3>
-        <span class="tag">клик — открыть</span>
-      </div>
+<p style="margin-top:15px">
+RK зона відкривається о <b>21:15</b> на <b>1 хвилину</b> по команді <b>/tp</b>.  
+В цей час <b>заборонено вбивати гравців</b>.
+</p>
 
-      <div class="sec-body">
-        <div class="gallery">
-          <div class="gitem" data-title="Муравейник — схема" data-img="kingGHETTO(%D0%BC%D1%83%D1%80%D0%B0%D1%88%D0%BD%D0%B8%D0%BA%29.png">
-            <img src="kingGHETTO(%D0%BC%D1%83%D1%80%D0%B0%D1%88%D0%BD%D1%83%D0%BA%29.png" alt="" style="display:none">
-            <img src="kingGHETTO(%D0%BC%D1%83%D1%80%D0%B0%D1%88%D0%BD%D0%B8%D0%BA%29.png" alt="Муравейник — схема" loading="lazy">
-            <div class="gcap">
-              <div>
-                <b>Схема</b>
-                <span>Нумерация зон (1–7)</span>
-              </div>
-              <div class="tag">MAP</div>
-            </div>
-          </div>
+</div>
 
-          <div class="gitem" data-title="Точка 1 (Муравейник)" data-img="%D1%82%D0%BE%D1%87%D0%BA%D0%B01(%D0%BC%D1%83%D1%80%D0%B0%D1%88%D0%BD%D0%B8%D0%BA%29.png">
-            <img src="%D1%82%D0%BE%D1%87%D0%BA%D0%B01(%D0%BC%D1%83%D1%80%D0%B0%D1%88%D0%BD%D0%B8%D0%BA%29.png" alt="Точка 1 (Муравейник)" loading="lazy">
-            <div class="gcap">
-              <div>
-                <b>Точка 1</b>
-                <span>Удержание = +300/5 мин</span>
-              </div>
-              <div class="tag">300</div>
-            </div>
-          </div>
+<section id="about">
 
-          <div class="gitem" data-title="Точка 2 (Муравейник)" data-img="%D1%82%D0%BE%D1%87%D0%BA%D0%B02(%D0%BC%D1%83%D1%80%D0%B0%D1%88%D0%BD%D0%B8%D0%BA%29.png">
-            <img src="%D1%82%D0%BE%D1%87%D0%BA%D0%B02(%D0%BC%D1%83%D1%80%D0%B0%D1%88%D0%BD%D0%B8%D0%BA%29.png" alt="Точка 2 (Муравейник)" loading="lazy">
-            <div class="gcap">
-              <div>
-                <b>Точка 2</b>
-                <span>Удержание = +250/5 мин</span>
-              </div>
-              <div class="tag">250</div>
-            </div>
-          </div>
+<div class="section-title">Опис</div>
 
-          <div class="gitem" data-title="Точка 3 (Муравейник)" data-img="%D1%82%D0%BE%D1%87%D0%BA%D0%B03(%D0%BC%D1%83%D1%80%D0%B0%D1%88%D0%BD%D0%B8%D0%BA%29.png">
-            <img src="%D1%82%D0%BE%D1%87%D0%BA%D0%B03(%D0%BC%D1%83%D1%80%D0%B0%D1%88%D0%BD%D0%B8%D0%BA%29.png" alt="Точка 3 (Муравейник)" loading="lazy">
-            <div class="gcap">
-              <div>
-                <b>Точка 3</b>
-                <span>Удержание = +200/5 мин</span>
-              </div>
-              <div class="tag">200</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+<ul>
+<li>Івент проходить у форматі <b>OOC</b></li>
+<li>Беруть участь всі <b>CRIME фракції</b></li>
+<li>3 локації — 3 точки</li>
+<li>Очки нараховуються кожні 5 хвилин</li>
+</ul>
 
-    <footer>
-      CRIME EVENT — Король Гетто · Ukraine GTA5
-      <div class="footerline">updated: Saturday 07.03.2026 21:00 (Kyiv) • RK 21:15 (1 min)</div>
-    </footer>
-  </main>
+</section>
 
-  <!-- Modal -->
-  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Просмотр изображения">
-    <div class="modal-card">
-      <div class="modal-top">
-        <b id="modalTitle">Image</b>
-        <button type="button" id="closeModal">Закрыть ✕</button>
-      </div>
-      <img class="modal-img" id="modalImg" alt="Просмотр" />
-    </div>
-  </div>
+<section id="rewards">
 
-  <script>
-    // ======================
-    // CONFIG: Saturday 07.03.2026 21:00 (Kyiv)
-    // ======================
-    // Фиксируем момент старта в UTC для стабильного таймера.
-    // 21:00 Kyiv ~ 19:00 UTC (на этой дате, в зависимости от DST, может отличаться,
-    // но для сайта/отсчета это ок; главное — текстом указано "Киев 21:00").
-    const EVENT_DATE = new Date(Date.UTC(2026, 2, 7, 19, 0, 0)); // 07 March 2026
+<div class="section-title">Нагороди</div>
 
-    const $ = (s)=>document.querySelector(s);
-    const pad2 = (n)=>String(n).padStart(2,"0");
+<div class="reward-box">
 
-    const statusText = $("#statusText");
-    const tzText = $("#tzText");
+<ul>
+<li>1 очко → матеріал</li>
+<li>15 → держ. аптека</li>
+<li>30 → адреналін</li>
+<li>50 → Джек Деніелс</li>
+<li>500 → 3 лідерські бали</li>
+</ul>
 
-    try{
-      tzText.textContent = Intl.DateTimeFormat().resolvedOptions().timeZone || "Local";
-    }catch(e){
-      tzText.textContent = "Local";
-    }
+</div>
 
-    function updateCountdown(){
-      const now = new Date();
-      const diff = EVENT_DATE - now;
+</section>
 
-      if(diff <= 0){
-        $("#d").textContent = "00";
-        $("#h").textContent = "00";
-        $("#m").textContent = "00";
-        $("#s").textContent = "00";
-        statusText.textContent = "Ивент уже стартовал";
-        return;
-      }
+<section id="rules">
 
-      const totalSeconds = Math.floor(diff / 1000);
-      const days = Math.floor(totalSeconds / (3600*24));
-      const hours = Math.floor((totalSeconds % (3600*24)) / 3600);
-      const mins = Math.floor((totalSeconds % 3600) / 60);
-      const secs = totalSeconds % 60;
+<div class="section-title">Правила</div>
 
-      $("#d").textContent = pad2(days);
-      $("#h").textContent = pad2(hours);
-      $("#m").textContent = pad2(mins);
-      $("#s").textContent = pad2(secs);
+<ol class="rules">
+<li>1–20 учасників від фракції</li>
+<li>Не наносити урон до початку</li>
+<li>Після /tp перейти на стартову точку</li>
+<li>Транспорт заборонений</li>
+<li>Заборонена 100% броня</li>
+<li>Заборонені тайзери</li>
+<li>Без багів анімацій</li>
+<li>Обов'язкова зброя</li>
+<li>Фракційний одяг</li>
+<li>Союзи заборонені</li>
+<li>RK зона відкривається 21:15 на 1 хв</li>
+<li>В RK зоні заборонено вбивати</li>
+<li>Запізнення — дискваліфікація</li>
+<li>Снайперки заборонені</li>
+</ol>
 
-      statusText.textContent = (totalSeconds <= 15*60) ? "Старт скоро" : "Подготовка";
-    }
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
+</section>
 
-    // Smooth scroll
-    document.querySelectorAll('a[href^="#"]').forEach(a=>{
-      a.addEventListener("click",(e)=>{
-        const id = a.getAttribute("href");
-        const el = document.querySelector(id);
-        if(!el) return;
-        e.preventDefault();
-        el.scrollIntoView({behavior:"smooth", block:"start"});
-      });
-    });
+<section id="factions">
 
-    // Gallery modal
-    const modal = $("#modal");
-    const modalImg = $("#modalImg");
-    const modalTitle = $("#modalTitle");
-    const closeModal = $("#closeModal");
+<div class="section-title">Фракції</div>
 
-    function openModal(title, img){
-      modalTitle.textContent = title || "Image";
-      modalImg.src = img;
-      modal.classList.add("open");
-    }
-    function hideModal(){
-      modal.classList.remove("open");
-      modalImg.src = "";
-    }
+<div class="tp-grid">
 
-    document.querySelectorAll(".gitem").forEach(card=>{
-      card.addEventListener("click", ()=>{
-        openModal(card.dataset.title, card.dataset.img);
-      });
-    });
+<div class="tp"><span>Kyiv Mafia</span> <b>/tp 1</b></div>
+<div class="tp"><span>Chinese Mafia</span> <b>/tp 2</b></div>
+<div class="tp"><span>Italian Mafia</span> <b>/tp 3</b></div>
+<div class="tp"><span>The Families</span> <b>/tp 4</b></div>
+<div class="tp"><span>Ballas Gang</span> <b>/tp 5</b></div>
+<div class="tp"><span>Northside Vagos</span> <b>/tp 6</b></div>
+<div class="tp"><span>Marabunta Grande</span> <b>/tp 7</b></div>
 
-    closeModal.addEventListener("click", hideModal);
-    modal.addEventListener("click", (e)=>{ if(e.target === modal) hideModal(); });
-    window.addEventListener("keydown",(e)=>{ if(e.key === "Escape") hideModal(); });
-  </script>
+</div>
+
+</section>
+
+<section id="positions">
+
+<div class="section-title">Позиції — Мурашник</div>
+
+<div class="gallery">
+
+<img src="kingGHETTO(%D0%BC%D1%83%D1%80%D0%B0%D1%88%D0%BD%D0%B8%D0%BA%29.png">
+<img src="%D1%82%D0%BE%D1%87%D0%BA%D0%B01(%D0%BC%D1%83%D1%80%D0%B0%D1%88%D0%BD%D0%B8%D0%BA%29.png">
+<img src="%D1%82%D0%BE%D1%87%D0%BA%D0%B02(%D0%BC%D1%83%D1%80%D0%B0%D1%88%D0%BD%D0%B8%D0%BA%29.png">
+<img src="%D1%82%D0%BE%D1%87%D0%BA%D0%B03(%D0%BC%D1%83%D1%80%D0%B0%D1%88%D0%BD%D0%B8%D0%BA%29.png">
+
+</div>
+
+</section>
+
+<footer>
+CRIME EVENT — Король Гетто • Ukraine GTA5
+</footer>
+
+</div>
+
 </body>
 </html>

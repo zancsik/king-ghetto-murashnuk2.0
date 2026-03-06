@@ -1,286 +1,1249 @@
 <!doctype html>
 <html lang="uk">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CRIME EVENT — Король Гетто</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#0a0614" />
+  <title>CRIME EVENT — Король Гетто</title>
+  <meta name="description" content="Король Гетто — CRIME EVENT. Субота 21:00, RK 21:15 на 1 хвилину, нагороди, правила, фракції, карти." />
 
-<style>
+  <style>
+    :root{
+      --bg:#080510;
+      --bg2:#12081f;
+      --panel:rgba(255,255,255,.06);
+      --panel2:rgba(255,255,255,.03);
+      --stroke:rgba(255,255,255,.10);
+      --text:#f5f0ff;
+      --muted:rgba(245,240,255,.74);
+      --purple:#8d3dff;
+      --purple2:#bc7bff;
+      --pink:#ff4fd8;
+      --red:#ff4a4a;
+      --gold:#ffd978;
+      --green:#56ff9b;
+      --shadow:0 22px 60px rgba(0,0,0,.45);
+      --radius:22px;
+      --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+      --sans:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    }
 
-body{
-margin:0;
-font-family:Arial;
-background:#07070b;
-color:white;
-}
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      color:var(--text);
+      font-family:var(--sans);
+      background:
+        radial-gradient(1100px 700px at 10% -10%, rgba(141,61,255,.24), transparent 60%),
+        radial-gradient(900px 600px at 100% 0%, rgba(255,79,216,.12), transparent 56%),
+        radial-gradient(900px 600px at 50% 120%, rgba(141,61,255,.14), transparent 58%),
+        linear-gradient(180deg, var(--bg), var(--bg2));
+      overflow-x:hidden;
+    }
 
-.container{
-max-width:1100px;
-margin:auto;
-padding:20px;
-}
+    body::before{
+      content:"";
+      position:fixed; inset:0;
+      pointer-events:none;
+      opacity:.12;
+      background:
+        repeating-linear-gradient(
+          180deg,
+          rgba(255,255,255,.02) 0px,
+          rgba(255,255,255,.02) 1px,
+          rgba(0,0,0,0) 2px,
+          rgba(0,0,0,0) 6px
+        ),
+        radial-gradient(circle at 30% 20%, rgba(255,255,255,.03), transparent 20%);
+      mix-blend-mode:overlay;
+    }
 
-header{
-background:#0b0b12;
-padding:15px;
-border-bottom:1px solid #222;
-}
+    .container{
+      width:min(1160px, calc(100% - 28px));
+      margin:0 auto;
+    }
 
-nav a{
-margin-right:15px;
-color:white;
-text-decoration:none;
-font-size:14px;
-}
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:50;
+      backdrop-filter:blur(16px);
+      background:rgba(9,7,16,.62);
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .topbar-inner{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      padding:12px 0;
+    }
 
-nav a:hover{
-color:#ff3b3b;
-}
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:220px;
+    }
+    .logo{
+      width:42px; height:42px;
+      border-radius:14px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,.28), transparent 35%),
+        linear-gradient(135deg, var(--purple), #3f0a72);
+      border:1px solid rgba(255,255,255,.15);
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,.04) inset,
+        0 0 34px rgba(141,61,255,.28);
+      position:relative;
+      overflow:hidden;
+    }
+    .logo::after{
+      content:"";
+      position:absolute; inset:-40%;
+      background:linear-gradient(90deg, transparent, rgba(255,255,255,.20), transparent);
+      transform:rotate(24deg);
+      animation:sweep 5.5s linear infinite;
+    }
+    @keyframes sweep{
+      0%{transform:translateX(-35%) rotate(24deg)}
+      100%{transform:translateX(35%) rotate(24deg)}
+    }
 
-.hero{
-margin-top:20px;
-padding:20px;
-background:#101018;
-border-radius:12px;
-}
+    .brand h1{
+      margin:0;
+      font-size:13px;
+      line-height:1.15;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+    }
+    .brand span{
+      display:block;
+      margin-top:3px;
+      font-size:11px;
+      color:var(--muted);
+      font-family:var(--mono);
+      letter-spacing:.06em;
+    }
 
-.title{
-font-size:32px;
-margin-bottom:10px;
-}
+    .nav{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:10px;
+    }
+    .nav a{
+      color:var(--text);
+      text-decoration:none;
+      font-size:13px;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.09);
+      background:rgba(255,255,255,.04);
+      transition:.18s ease;
+    }
+    .nav a:hover{
+      transform:translateY(-1px);
+      border-color:rgba(188,123,255,.38);
+      box-shadow:0 0 0 4px rgba(141,61,255,.09);
+    }
 
-.cards{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:12px;
-margin-top:15px;
-}
+    .status-wrap{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:220px;
+      justify-content:flex-end;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:9px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.05);
+      font-family:var(--mono);
+      font-size:12px;
+      white-space:nowrap;
+    }
+    .dot{
+      width:8px; height:8px;
+      border-radius:50%;
+      background:var(--pink);
+      box-shadow:0 0 18px rgba(255,79,216,.8);
+    }
 
-.card{
-background:#15151f;
-padding:15px;
-border-radius:10px;
-border:1px solid #222;
-}
+    header.hero{
+      padding:34px 0 14px;
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:18px;
+      align-items:stretch;
+    }
 
-.card b{
-display:block;
-margin-bottom:5px;
-}
+    .hero-card, .side-card, section{
+      position:relative;
+      overflow:hidden;
+      border-radius:var(--radius);
+      border:1px solid rgba(255,255,255,.10);
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      box-shadow:var(--shadow);
+    }
+    .hero-card::before, .side-card::before, section::before{
+      content:"";
+      position:absolute; inset:-1px;
+      pointer-events:none;
+      background:
+        radial-gradient(600px 220px at 15% 0%, rgba(141,61,255,.18), transparent 55%),
+        radial-gradient(700px 260px at 85% 15%, rgba(255,79,216,.10), transparent 56%);
+      opacity:.9;
+    }
+    .hero-card > *, .side-card > *, section > *{position:relative}
 
-section{
-margin-top:25px;
-background:#101018;
-border-radius:12px;
-padding:20px;
-}
+    .hero-card{padding:24px}
+    .kicker{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      font-family:var(--mono);
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      color:rgba(245,240,255,.82);
+    }
+    .kicker b{color:var(--purple2)}
+    .hero-title{
+      margin:10px 0 8px;
+      font-size:42px;
+      line-height:1.03;
+      text-transform:uppercase;
+      letter-spacing:.02em;
+    }
+    .hero-sub{
+      margin:0;
+      color:var(--muted);
+      line-height:1.6;
+      font-size:15px;
+      max-width:68ch;
+    }
 
-.section-title{
-font-size:20px;
-margin-bottom:15px;
-}
+    .quick-grid{
+      display:grid;
+      grid-template-columns:repeat(4, minmax(0,1fr));
+      gap:12px;
+      margin-top:18px;
+    }
+    .mini{
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(0,0,0,.18);
+      padding:14px;
+    }
+    .mini b{
+      display:block;
+      font-size:12px;
+      font-family:var(--mono);
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      color:rgba(245,240,255,.88);
+      margin-bottom:8px;
+    }
+    .mini span{
+      display:block;
+      color:var(--muted);
+      line-height:1.4;
+      font-size:13px;
+    }
 
-.rules{
-columns:2;
-}
+    .alert-banner{
+      margin-top:16px;
+      padding:14px 16px;
+      border-radius:18px;
+      border:1px solid rgba(255,217,120,.22);
+      background:linear-gradient(180deg, rgba(255,217,120,.10), rgba(255,217,120,.04));
+      color:#fff8df;
+      line-height:1.5;
+      font-size:14px;
+    }
+    .alert-banner b{color:var(--gold)}
 
-@media(max-width:700px){
-.rules{columns:1;}
-}
+    .side-card{
+      padding:20px;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+    .side-head{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .side-head h2{
+      margin:0;
+      font-size:14px;
+      font-family:var(--mono);
+      text-transform:uppercase;
+      letter-spacing:.12em;
+    }
+    .small{
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.35;
+      margin-top:6px;
+    }
 
-.reward-box{
-background:#1b0c2e;
-border-radius:12px;
-padding:20px;
-}
+    .timer-grid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:10px;
+    }
+    .tbox{
+      border-radius:18px;
+      padding:14px 10px;
+      text-align:center;
+      background:rgba(0,0,0,.18);
+      border:1px solid rgba(255,255,255,.10);
+    }
+    .tbox .num{
+      font-family:var(--mono);
+      font-size:24px;
+      text-shadow:0 0 22px rgba(188,123,255,.24);
+    }
+    .tbox .lbl{
+      margin-top:6px;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color:var(--muted);
+    }
 
-.reward-box ul{
-font-size:18px;
-line-height:1.8;
-}
+    .side-sep{
+      height:1px;
+      background:linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent);
+      margin:2px 0;
+    }
 
-.tp-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:10px;
-}
+    main{
+      padding:8px 0 56px;
+    }
 
-.tp{
-background:#15151f;
-padding:12px;
-border-radius:10px;
-border:1px solid #222;
-display:flex;
-justify-content:space-between;
-}
+    section{
+      margin-top:18px;
+    }
+    .sec-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:16px 18px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      background:rgba(0,0,0,.12);
+    }
+    .sec-head h3{
+      margin:0;
+      font-size:14px;
+      font-family:var(--mono);
+      letter-spacing:.14em;
+      text-transform:uppercase;
+    }
+    .tag{
+      font-size:11px;
+      font-family:var(--mono);
+      letter-spacing:.10em;
+      text-transform:uppercase;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.05);
+      color:rgba(245,240,255,.82);
+      white-space:nowrap;
+    }
+    .sec-body{
+      padding:18px;
+    }
 
-.gallery{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:12px;
-}
+    .grid-2{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+    .box{
+      padding:16px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(0,0,0,.16);
+    }
+    .box h4{
+      margin:0 0 10px;
+      font-size:13px;
+      font-family:var(--mono);
+      text-transform:uppercase;
+      letter-spacing:.10em;
+    }
+    .clean{
+      margin:0;
+      padding-left:18px;
+      color:var(--muted);
+      line-height:1.58;
+    }
+    .clean li{margin:7px 0}
 
-.gallery img{
-width:100%;
-border-radius:10px;
-}
+    .rewards-grid{
+      display:grid;
+      grid-template-columns:1.2fr .8fr;
+      gap:14px;
+    }
+    .reward-main{
+      padding:20px;
+      border-radius:22px;
+      background:
+        radial-gradient(500px 250px at 20% 0%, rgba(141,61,255,.20), transparent 56%),
+        linear-gradient(180deg, #1a0630, #10071c);
+      border:1px solid rgba(255,255,255,.10);
+      box-shadow:var(--shadow);
+    }
+    .reward-main h4{
+      margin:0 0 14px;
+      font-size:18px;
+      letter-spacing:.02em;
+    }
+    .reward-list{
+      list-style:none;
+      margin:0;
+      padding:0;
+      display:grid;
+      gap:12px;
+    }
+    .reward-item{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:14px 16px;
+      border-radius:16px;
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.08);
+    }
+    .reward-item .left{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-size:15px;
+    }
+    .reward-badge{
+      min-width:86px;
+      text-align:center;
+      padding:8px 10px;
+      border-radius:999px;
+      background:rgba(255,217,120,.12);
+      border:1px solid rgba(255,217,120,.22);
+      color:#fff1b8;
+      font-family:var(--mono);
+      font-size:12px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    .reward-arrow{
+      color:var(--purple2);
+      font-weight:700;
+    }
+    .reward-side{
+      display:grid;
+      gap:14px;
+    }
 
-footer{
-margin-top:30px;
-text-align:center;
-opacity:.7;
-}
+    .score-wrap{
+      overflow:auto;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(0,0,0,.18);
+    }
+    table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:680px;
+    }
+    th,td{
+      padding:14px 14px;
+      text-align:left;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      font-size:14px;
+    }
+    th{
+      color:rgba(245,240,255,.86);
+      font-family:var(--mono);
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      font-size:12px;
+      background:rgba(255,255,255,.03);
+    }
+    tr:last-child td{border-bottom:none}
+    .rank{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:32px;
+      height:32px;
+      border-radius:999px;
+      background:rgba(141,61,255,.16);
+      border:1px solid rgba(141,61,255,.26);
+      font-family:var(--mono);
+      font-size:12px;
+    }
+    .pts{
+      font-weight:700;
+      color:#fff0bf;
+    }
 
-</style>
+    .factions{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0,1fr));
+      gap:12px;
+    }
+    .fcard{
+      padding:14px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(0,0,0,.16);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+    }
+    .fcard b{
+      display:block;
+      margin-bottom:4px;
+      font-size:14px;
+    }
+    .fcard span{
+      display:block;
+      color:var(--muted);
+      font-family:var(--mono);
+      font-size:12px;
+    }
+    .tp{
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid rgba(188,123,255,.28);
+      background:rgba(141,61,255,.12);
+      font-family:var(--mono);
+      font-size:12px;
+      white-space:nowrap;
+    }
+
+    .locations{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0,1fr));
+      gap:12px;
+    }
+    .loc{
+      padding:16px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(0,0,0,.16);
+    }
+    .loc h4{
+      margin:0 0 8px;
+      font-size:15px;
+    }
+    .loc p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.55;
+      font-size:13px;
+    }
+
+    .gallery{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:14px;
+    }
+    .gitem{
+      border-radius:20px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(0,0,0,.16);
+      cursor:pointer;
+      transition:.18s ease;
+    }
+    .gitem:hover{
+      transform:translateY(-2px);
+      box-shadow:0 0 0 4px rgba(141,61,255,.08), var(--shadow);
+      border-color:rgba(188,123,255,.32);
+    }
+    .gitem img{
+      width:100%;
+      display:block;
+      aspect-ratio:16/10;
+      object-fit:cover;
+      background:#12081f;
+    }
+    .gcap{
+      padding:12px 14px 14px;
+      border-top:1px solid rgba(255,255,255,.08);
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:flex-start;
+    }
+    .gcap b{
+      display:block;
+      font-size:13px;
+      font-family:var(--mono);
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      margin-bottom:5px;
+    }
+    .gcap span{
+      display:block;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.4;
+    }
+
+    .note{
+      margin-top:14px;
+      padding:14px 16px;
+      border-radius:16px;
+      border:1px solid rgba(86,255,155,.20);
+      background:linear-gradient(180deg, rgba(86,255,155,.08), rgba(86,255,155,.03));
+      color:#dfffea;
+      line-height:1.5;
+      font-size:14px;
+    }
+    .note b{color:var(--green)}
+
+    .footer{
+      padding:24px 0 36px;
+      text-align:center;
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    .modal{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      background:rgba(0,0,0,.76);
+      z-index:120;
+    }
+    .modal.open{display:flex}
+    .modal-card{
+      width:min(1100px, 100%);
+      border-radius:20px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(13,10,22,.94);
+      box-shadow:var(--shadow);
+    }
+    .modal-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      padding:12px 14px;
+      background:rgba(255,255,255,.04);
+      border-bottom:1px solid rgba(255,255,255,.10);
+    }
+    .modal-top b{
+      font-family:var(--mono);
+      font-size:12px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+    .close{
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.06);
+      color:var(--text);
+      border-radius:12px;
+      padding:8px 10px;
+      cursor:pointer;
+    }
+    .modal img{
+      width:100%;
+      display:block;
+      max-height:82vh;
+      object-fit:contain;
+      background:#0d0a16;
+    }
+
+    @media (max-width: 980px){
+      .hero-grid,
+      .quick-grid,
+      .rewards-grid,
+      .grid-2,
+      .locations,
+      .factions,
+      .gallery{
+        grid-template-columns:1fr;
+      }
+      .topbar-inner{
+        flex-direction:column;
+        align-items:stretch;
+      }
+      .brand,.status-wrap{
+        min-width:auto;
+        justify-content:center;
+      }
+      .nav{
+        justify-content:flex-start;
+      }
+    }
+
+    @media (max-width: 640px){
+      .container{width:min(100% - 18px, 1160px)}
+      .hero-title{font-size:30px}
+      .timer-grid{grid-template-columns:repeat(2,1fr)}
+      .sec-head{padding:14px}
+      .sec-body{padding:14px}
+      .hero-card,.side-card{padding:16px}
+      .reward-item{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-<header>
-<div class="container">
+  <div class="topbar">
+    <div class="container">
+      <div class="topbar-inner">
+        <div class="brand">
+          <div class="logo" aria-hidden="true"></div>
+          <div>
+            <h1>CRIME EVENT — КОРОЛЬ ГЕТТО</h1>
+            <span>Ukraine GTA5 • OOC • Saturday protocol</span>
+          </div>
+        </div>
 
-<b>CRIME EVENT — КОРОЛЬ ГЕТТО</b>
+        <nav class="nav" aria-label="Навігація">
+          <a href="#about">Опис</a>
+          <a href="#rewards">Нагороди</a>
+          <a href="#rules">Правила</a>
+          <a href="#scoreboard">Очки</a>
+          <a href="#factions">Фракції</a>
+          <a href="#locations">Локації</a>
+          <a href="#positions">Карти</a>
+        </nav>
 
-<nav>
-<a href="#about">Опис</a>
-<a href="#rewards">Нагороди</a>
-<a href="#rules">Правила</a>
-<a href="#factions">Фракції</a>
-<a href="#positions">Позиції</a>
-</nav>
+        <div class="status-wrap">
+          <div class="pill"><span class="dot"></span><span id="statusText">Підготовка</span></div>
+          <div class="pill"><span>TZ</span><span id="tzText">Local</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-</div>
-</header>
+  <header class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-card">
+          <div class="kicker"><b>///</b> operation: king_ghetto</div>
+          <h2 class="hero-title">Король Гетто</h2>
+          <p class="hero-sub">
+            CRIME-івент у стилі захоплення точок: 3 локації, 3 точки на кожній, очки за утримання кожні 5 хвилин.
+            Без союзів, без транспорту, з окремим вікном для RK-зони.
+          </p>
 
-<div class="container">
+          <div class="quick-grid">
+            <div class="mini">
+              <b>Дата</b>
+              <span><strong>Субота</strong><br>21:00</span>
+            </div>
+            <div class="mini">
+              <b>Збір</b>
+              <span>О 20:50<br>до початку івенту</span>
+            </div>
+            <div class="mini">
+              <b>Очки</b>
+              <span>Т1: 300<br>Т2: 250<br>Т3: 200</span>
+            </div>
+            <div class="mini">
+              <b>RK-зона</b>
+              <span>21:15 на 1 хвилину<br>по команді <code>/tp</code></span>
+            </div>
+          </div>
 
-<div class="hero">
+          <div class="alert-banner">
+            <b>Увага:</b> RK-зона відкривається о <b>21:15</b> рівно на <b>1 хвилину</b>.
+            У цей проміжок часу в RK-зоні <b>заборонено вбивати будь-кого</b>.
+          </div>
+        </div>
 
-<div class="title">Король Гетто</div>
+        <aside class="side-card">
+          <div class="side-head">
+            <div>
+              <h2>До старту івенту</h2>
+              <div class="small">Субота • 21:00 • локальний таймер</div>
+            </div>
+          </div>
 
-<div class="cards">
+          <div class="timer-grid" aria-live="polite">
+            <div class="tbox"><div class="num" id="sd">00</div><div class="lbl">днів</div></div>
+            <div class="tbox"><div class="num" id="sh">00</div><div class="lbl">год</div></div>
+            <div class="tbox"><div class="num" id="sm">00</div><div class="lbl">хв</div></div>
+            <div class="tbox"><div class="num" id="ss">00</div><div class="lbl">сек</div></div>
+          </div>
 
-<div class="card">
-<b>Дата</b>
-Субота — 21:00
-</div>
+          <div class="side-sep"></div>
 
-<div class="card">
-<b>Збір</b>
-20:50
-</div>
+          <div class="side-head">
+            <div>
+              <h2>До відкриття RK</h2>
+              <div class="small">21:15 • на 1 хвилину • /tp</div>
+            </div>
+          </div>
 
-<div class="card">
-<b>Очки</b>
-T1:300 • T2:250 • T3:200
-</div>
+          <div class="timer-grid" aria-live="polite">
+            <div class="tbox"><div class="num" id="rd">00</div><div class="lbl">днів</div></div>
+            <div class="tbox"><div class="num" id="rh">00</div><div class="lbl">год</div></div>
+            <div class="tbox"><div class="num" id="rm">00</div><div class="lbl">хв</div></div>
+            <div class="tbox"><div class="num" id="rs">00</div><div class="lbl">сек</div></div>
+          </div>
 
-<div class="card">
-<b>RK зона</b>
-21:15 на 1 хвилину
-</div>
+          <div class="note">
+            <b>Пам’ятка:</b> після <code>/tp</code> всі переходять на стартову точку. Під час хвилини RK у зоні не можна нікого вбивати.
+          </div>
+        </aside>
+      </div>
+    </div>
+  </header>
 
-</div>
+  <main class="container">
+    <section id="about">
+      <div class="sec-head">
+        <h3>Опис івенту</h3>
+        <span class="tag">OOC • crime only</span>
+      </div>
+      <div class="sec-body">
+        <div class="grid-2">
+          <div class="box">
+            <h4>Формат</h4>
+            <ul class="clean">
+              <li>Івент проходить повністю у форматі <b>OOC</b>.</li>
+              <li>Беруть участь усі фракції категорії <b>CRIME</b>.</li>
+              <li>Доступні <b>3 локації</b>, на кожній розміщено <b>3 точки</b>.</li>
+              <li>Очки нараховуються кожні <b>5 хвилин</b> за утримання точок.</li>
+            </ul>
+          </div>
+          <div class="box">
+            <h4>Основні умови</h4>
+            <ul class="clean">
+              <li>Збір складу до <b>20:50</b>.</li>
+              <li>Початок івенту о <b>21:00</b>.</li>
+              <li>RK-зона відкривається о <b>21:15</b> на <b>1 хвилину</b>.</li>
+              <li>У RK-зоні протягом цієї хвилини <b>заборонено вбивати</b>.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<p style="margin-top:15px">
-RK зона відкривається о <b>21:15</b> на <b>1 хвилину</b> по команді <b>/tp</b>.  
-В цей час <b>заборонено вбивати гравців</b>.
-</p>
+    <section id="rewards">
+      <div class="sec-head">
+        <h3>Нагороди</h3>
+        <span class="tag">обмін за очки</span>
+      </div>
+      <div class="sec-body">
+        <div class="rewards-grid">
+          <div class="reward-main">
+            <h4>Винагороди</h4>
+            <div class="reward-list">
+              <div class="reward-item">
+                <div class="left"><span class="reward-badge">1 очко</span><span class="reward-arrow">→</span><strong>матеріал</strong></div>
+              </div>
+              <div class="reward-item">
+                <div class="left"><span class="reward-badge">15</span><span class="reward-arrow">→</span><strong>держ. аптека</strong></div>
+              </div>
+              <div class="reward-item">
+                <div class="left"><span class="reward-badge">30</span><span class="reward-arrow">→</span><strong>адреналін</strong></div>
+              </div>
+              <div class="reward-item">
+                <div class="left"><span class="reward-badge">50</span><span class="reward-arrow">→</span><strong>Джек Деніелс</strong></div>
+              </div>
+              <div class="reward-item">
+                <div class="left"><span class="reward-badge">500</span><span class="reward-arrow">→</span><strong>3 лідерські бали</strong></div>
+              </div>
+            </div>
+          </div>
 
-</div>
+          <div class="reward-side">
+            <div class="box">
+              <h4>Пояснення</h4>
+              <ul class="clean">
+                <li>Очки заробляються за утримання точок.</li>
+                <li>Чим вища активність фракції, тим більше шансів на великий обмін.</li>
+                <li>Найцінніша нагорода — <b>3 лідерські бали</b> за <b>500</b>.</li>
+              </ul>
+            </div>
+            <div class="box">
+              <h4>Швидкий орієнтир</h4>
+              <ul class="clean">
+                <li><b>Малі нагороди:</b> 1 / 15 / 30</li>
+                <li><b>Середня:</b> 50</li>
+                <li><b>Головна:</b> 500</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<section id="about">
+    <section id="rules">
+      <div class="sec-head">
+        <h3>Правила</h3>
+        <span class="tag">обов’язково до прочитання</span>
+      </div>
+      <div class="sec-body">
+        <div class="grid-2">
+          <div class="box">
+            <h4>Загальні</h4>
+            <ol class="clean">
+              <li>Від <b>1 до 20</b> учасників від фракції.</li>
+              <li>До старту заборонено наносити будь-який урон.</li>
+              <li>Після <code>/tp</code> всі зобов’язані перейти на стартову точку.</li>
+              <li>Використання транспорту заборонено.</li>
+              <li>Заборонена <b>100% броня</b> та <b>тайзери</b>.</li>
+              <li>Заборонений багоюз анімацій.</li>
+              <li>Наявність зброї — обов’язкова.</li>
+            </ol>
+          </div>
+          <div class="box">
+            <h4>Додаткові</h4>
+            <ol class="clean">
+              <li>Фракційний одяг повинен відповідати кольору фракції.</li>
+              <li>Союзи між фракціями заборонені.</li>
+              <li>Неявка старшого складу = <b>-5 балів</b>.</li>
+              <li>RK-зона відкривається о <b>21:15</b> на <b>1 хвилину</b>.</li>
+              <li>У цей час в RK-зоні <b>заборонено вбивати</b>.</li>
+              <li>Запізнення після старту = дискваліфікація.</li>
+              <li>Снайперські гвинтівки та мушкет заборонені.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<div class="section-title">Опис</div>
+    <section id="scoreboard">
+      <div class="sec-head">
+        <h3>Таблиця очок фракцій</h3>
+        <span class="tag">можна редагувати вручну</span>
+      </div>
+      <div class="sec-body">
+        <div class="score-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Місце</th>
+                <th>Фракція</th>
+                <th>Точка 1</th>
+                <th>Точка 2</th>
+                <th>Точка 3</th>
+                <th>Загалом</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="rank">#1</span></td>
+                <td>Kyiv Mafia</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="pts">0</td>
+              </tr>
+              <tr>
+                <td><span class="rank">#2</span></td>
+                <td>Chinese Mafia</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="pts">0</td>
+              </tr>
+              <tr>
+                <td><span class="rank">#3</span></td>
+                <td>Italian Mafia</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="pts">0</td>
+              </tr>
+              <tr>
+                <td><span class="rank">#4</span></td>
+                <td>The Families</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="pts">0</td>
+              </tr>
+              <tr>
+                <td><span class="rank">#5</span></td>
+                <td>Ballas Gang</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="pts">0</td>
+              </tr>
+              <tr>
+                <td><span class="rank">#6</span></td>
+                <td>Northside Vagos</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="pts">0</td>
+              </tr>
+              <tr>
+                <td><span class="rank">#7</span></td>
+                <td>Marabunta Grande</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="pts">0</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-<ul>
-<li>Івент проходить у форматі <b>OOC</b></li>
-<li>Беруть участь всі <b>CRIME фракції</b></li>
-<li>3 локації — 3 точки</li>
-<li>Очки нараховуються кожні 5 хвилин</li>
-</ul>
+        <div class="note">
+          <b>Порада:</b> у GitHub можна вручну редагувати ці числа після завершення івенту, щоб використовувати сторінку як підсумкову таблицю.
+        </div>
+      </div>
+    </section>
 
-</section>
+    <section id="factions">
+      <div class="sec-head">
+        <h3>Фракції та телепорт</h3>
+        <span class="tag">/tp</span>
+      </div>
+      <div class="sec-body">
+        <div class="factions">
+          <div class="fcard"><div><b>Kyiv Mafia</b><span>Телепорт на локацію</span></div><div class="tp">/tp 1</div></div>
+          <div class="fcard"><div><b>Chinese Mafia</b><span>Телепорт на локацію</span></div><div class="tp">/tp 2</div></div>
+          <div class="fcard"><div><b>Italian Mafia</b><span>Телепорт на локацію</span></div><div class="tp">/tp 3</div></div>
+          <div class="fcard"><div><b>The Families</b><span>Телепорт на локацію</span></div><div class="tp">/tp 4</div></div>
+          <div class="fcard"><div><b>Ballas Gang</b><span>Телепорт на локацію</span></div><div class="tp">/tp 5</div></div>
+          <div class="fcard"><div><b>Northside Vagos</b><span>Телепорт на локацію</span></div><div class="tp">/tp 6</div></div>
+          <div class="fcard"><div><b>Marabunta Grande</b><span>Телепорт на локацію</span></div><div class="tp">/tp 7</div></div>
+        </div>
+      </div>
+    </section>
 
-<section id="rewards">
+    <section id="locations">
+      <div class="sec-head">
+        <h3>Локації</h3>
+        <span class="tag">3 локації • 3 точки</span>
+      </div>
+      <div class="sec-body">
+        <div class="locations">
+          <div class="loc">
+            <h4>Площа</h4>
+            <p>
+              Одна з основних арен івенту. На локації розташовано три точки утримання,
+              які дають очки кожні 5 хвилин.
+            </p>
+          </div>
+          <div class="loc">
+            <h4>Мурашник</h4>
+            <p>
+              Центральна бойова зона з окремими схемами позицій нижче. Для неї вже
+              додані карти й окремі позначення точок.
+            </p>
+          </div>
+          <div class="loc">
+            <h4>Титул Vagos</h4>
+            <p>
+              Третя локація івенту. Також містить три точки, які можуть переламати
+              хід усієї таблиці очок.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<div class="section-title">Нагороди</div>
+    <section id="positions">
+      <div class="sec-head">
+        <h3>Карти та позиції — Мурашник</h3>
+        <span class="tag">натисни для відкриття</span>
+      </div>
+      <div class="sec-body">
+        <div class="gallery">
+          <div class="gitem" data-title="Мурашник — схема" data-img="kingGHETTO(%D0%BC%D1%83%D1%80%D0%B0%D1%88%D0%BD%D0%B8%D0%BA%29.png">
+            <img src="kingGHETTO(%D0%BC%D1%83%D1%80%D0%B0%D1%88%D0%BD%D0%B8%D0%BA%29.png" alt="Мурашник — схема" loading="lazy">
+            <div class="gcap">
+              <div>
+                <b>Схема</b>
+                <span>Загальна схема локації з орієнтирами</span>
+              </div>
+              <span class="tag">map</span>
+            </div>
+          </div>
 
-<div class="reward-box">
+          <div class="gitem" data-title="Точка 1" data-img="%D1%82%D0%BE%D1%87%D0%BA%D0%B01(%D0%BC%D1%83%D1%80%D0%B0%D1%88%D0%BD%D0%B8%D0%BA%29.png">
+            <img src="%D1%82%D0%BE%D1%87%D0%BA%D0%B01(%D0%BC%D1%83%D1%80%D0%B0%D1%88%D0%BD%D0%B8%D0%BA%29.png" alt="Точка 1" loading="lazy">
+            <div class="gcap">
+              <div>
+                <b>Точка 1</b>
+                <span>Утримання = 300 очок кожні 5 хвилин</span>
+              </div>
+              <span class="tag">300</span>
+            </div>
+          </div>
 
-<ul>
-<li>1 очко → матеріал</li>
-<li>15 → держ. аптека</li>
-<li>30 → адреналін</li>
-<li>50 → Джек Деніелс</li>
-<li>500 → 3 лідерські бали</li>
-</ul>
+          <div class="gitem" data-title="Точка 2" data-img="%D1%82%D0%BE%D1%87%D0%BA%D0%B02(%D0%BC%D1%83%D1%80%D0%B0%D1%88%D0%BD%D0%B8%D0%BA%29.png">
+            <img src="%D1%82%D0%BE%D1%87%D0%BA%D0%B02(%D0%BC%D1%83%D1%80%D0%B0%D1%88%D0%BD%D0%B8%D0%BA%29.png" alt="Точка 2" loading="lazy">
+            <div class="gcap">
+              <div>
+                <b>Точка 2</b>
+                <span>Утримання = 250 очок кожні 5 хвилин</span>
+              </div>
+              <span class="tag">250</span>
+            </div>
+          </div>
 
-</div>
+          <div class="gitem" data-title="Точка 3" data-img="%D1%82%D0%BE%D1%87%D0%BA%D0%B03(%D0%BC%D1%83%D1%80%D0%B0%D1%88%D0%BD%D0%B8%D0%BA%29.png">
+            <img src="%D1%82%D0%BE%D1%87%D0%BA%D0%B03(%D0%BC%D1%83%D1%80%D0%B0%D1%88%D0%BD%D0%B8%D0%BA%29.png" alt="Точка 3" loading="lazy">
+            <div class="gcap">
+              <div>
+                <b>Точка 3</b>
+                <span>Утримання = 200 очок кожні 5 хвилин</span>
+              </div>
+              <span class="tag">200</span>
+            </div>
+          </div>
+        </div>
 
-</section>
+        <div class="note">
+          <b>Підказка:</b> карти відкриваються у великому форматі після натискання. Це зручно на телефоні перед самим івентом.
+        </div>
+      </div>
+    </section>
 
-<section id="rules">
+    <div class="footer">
+      CRIME EVENT — Король Гетто • Ukraine GTA5 • Saturday 21:00 • RK 21:15 (1 min)
+    </div>
+  </main>
 
-<div class="section-title">Правила</div>
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Перегляд зображення">
+    <div class="modal-card">
+      <div class="modal-top">
+        <b id="modalTitle">Image</b>
+        <button class="close" id="closeModal" type="button">Закрити ✕</button>
+      </div>
+      <img id="modalImg" alt="Перегляд">
+    </div>
+  </div>
 
-<ol class="rules">
-<li>1–20 учасників від фракції</li>
-<li>Не наносити урон до початку</li>
-<li>Після /tp перейти на стартову точку</li>
-<li>Транспорт заборонений</li>
-<li>Заборонена 100% броня</li>
-<li>Заборонені тайзери</li>
-<li>Без багів анімацій</li>
-<li>Обов'язкова зброя</li>
-<li>Фракційний одяг</li>
-<li>Союзи заборонені</li>
-<li>RK зона відкривається 21:15 на 1 хв</li>
-<li>В RK зоні заборонено вбивати</li>
-<li>Запізнення — дискваліфікація</li>
-<li>Снайперки заборонені</li>
-</ol>
+  <script>
+    const $ = (s) => document.querySelector(s);
+    const pad = (n) => String(n).padStart(2, "0");
 
-</section>
+    try {
+      $("#tzText").textContent = Intl.DateTimeFormat().resolvedOptions().timeZone || "Local";
+    } catch(e) {
+      $("#tzText").textContent = "Local";
+    }
 
-<section id="factions">
+    function nextSaturdayAt(hour, minute) {
+      const now = new Date();
+      const target = new Date(now);
+      const currentDay = now.getDay(); // 0 Sun, 6 Sat
+      let daysUntilSaturday = (6 - currentDay + 7) % 7;
+      target.setHours(hour, minute, 0, 0);
 
-<div class="section-title">Фракції</div>
+      if (daysUntilSaturday === 0 && now > target) {
+        daysUntilSaturday = 7;
+      }
+      target.setDate(now.getDate() + daysUntilSaturday);
+      target.setHours(hour, minute, 0, 0);
+      return target;
+    }
 
-<div class="tp-grid">
+    function setCountdown(targetDate, ids, endedText) {
+      const now = new Date();
+      let diff = targetDate - now;
 
-<div class="tp"><span>Kyiv Mafia</span> <b>/tp 1</b></div>
-<div class="tp"><span>Chinese Mafia</span> <b>/tp 2</b></div>
-<div class="tp"><span>Italian Mafia</span> <b>/tp 3</b></div>
-<div class="tp"><span>The Families</span> <b>/tp 4</b></div>
-<div class="tp"><span>Ballas Gang</span> <b>/tp 5</b></div>
-<div class="tp"><span>Northside Vagos</span> <b>/tp 6</b></div>
-<div class="tp"><span>Marabunta Grande</span> <b>/tp 7</b></div>
+      if (diff <= 0) {
+        $(ids.d).textContent = "00";
+        $(ids.h).textContent = "00";
+        $(ids.m).textContent = "00";
+        $(ids.s).textContent = "00";
+        return true;
+      }
 
-</div>
+      const total = Math.floor(diff / 1000);
+      const days = Math.floor(total / 86400);
+      const hours = Math.floor((total % 86400) / 3600);
+      const mins = Math.floor((total % 3600) / 60);
+      const secs = total % 60;
 
-</section>
+      $(ids.d).textContent = pad(days);
+      $(ids.h).textContent = pad(hours);
+      $(ids.m).textContent = pad(mins);
+      $(ids.s).textContent = pad(secs);
+      return false;
+    }
 
-<section id="positions">
+    function updateTimers() {
+      const startDate = nextSaturdayAt(21, 0);
+      const rkDate = new Date(startDate);
+      rkDate.setHours(21, 15, 0, 0);
 
-<div class="section-title">Позиції — Мурашник</div>
+      const started = setCountdown(startDate, {
+        d:"#sd", h:"#sh", m:"#sm", s:"#ss"
+      });
 
-<div class="gallery">
+      setCountdown(rkDate, {
+        d:"#rd", h:"#rh", m:"#rm", s:"#rs"
+      });
 
-<img src="kingGHETTO(%D0%BC%D1%83%D1%80%D0%B0%D1%88%D0%BD%D0%B8%D0%BA%29.png">
-<img src="%D1%82%D0%BE%D1%87%D0%BA%D0%B01(%D0%BC%D1%83%D1%80%D0%B0%D1%88%D0%BD%D0%B8%D0%BA%29.png">
-<img src="%D1%82%D0%BE%D1%87%D0%BA%D0%B02(%D0%BC%D1%83%D1%80%D0%B0%D1%88%D0%BD%D0%B8%D0%BA%29.png">
-<img src="%D1%82%D0%BE%D1%87%D0%BA%D0%B03(%D0%BC%D1%83%D1%80%D0%B0%D1%88%D0%BD%D0%B8%D0%BA%29.png">
+      const now = new Date();
+      if (now < startDate) {
+        $("#statusText").textContent = "Підготовка";
+      } else if (now >= startDate && now < rkDate) {
+        $("#statusText").textContent = "Івент триває";
+      } else if (now >= rkDate && now < new Date(rkDate.getTime() + 60000)) {
+        $("#statusText").textContent = "RK відкрита";
+      } else {
+        $("#statusText").textContent = "Очікування";
+      }
+    }
 
-</div>
+    updateTimers();
+    setInterval(updateTimers, 1000);
 
-</section>
+    const modal = $("#modal");
+    const modalTitle = $("#modalTitle");
+    const modalImg = $("#modalImg");
 
-<footer>
-CRIME EVENT — Король Гетто • Ukraine GTA5
-</footer>
+    document.querySelectorAll(".gitem").forEach(item => {
+      item.addEventListener("click", () => {
+        modalTitle.textContent = item.dataset.title || "Image";
+        modalImg.src = item.dataset.img;
+        modal.classList.add("open");
+      });
+    });
 
-</div>
+    function closeModal() {
+      modal.classList.remove("open");
+      modalImg.src = "";
+    }
 
+    $("#closeModal").addEventListener("click", closeModal);
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeModal();
+    });
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeModal();
+    });
+  </script>
 </body>
 </html>
